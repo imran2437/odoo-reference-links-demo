@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="reference_link_list" model="ir.ui.view">
+        <field name="name">imran.reference.link.list</field>
+        <field name="model">imran.reference.link</field>
+        <field name="arch" type="xml">
+            <list string="My Links" decoration-info="favourite">
+                <field name="favourite"/><field name="name"/><field name="category" widget="badge"/>
+                <field name="url" widget="url"/><field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+    <record id="reference_link_form" model="ir.ui.view">
+        <field name="name">imran.reference.link.form</field>
+        <field name="model">imran.reference.link</field>
+        <field name="arch" type="xml">
+            <form string="Reference Link">
+                <header>
+                    <button name="action_open_link" type="object" string="Open Link" class="btn-primary"/>
+                    <button name="action_toggle_favourite" type="object" string="Add Favourite" invisible="favourite"/>
+                    <button name="action_toggle_favourite" type="object" string="Remove Favourite" invisible="not favourite"/>
+                </header>
+                <sheet>
+                    <field name="active" invisible="1"/><field name="favourite" invisible="1"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Developer documentation"/></h1></div>
+                    <group>
+                        <group><field name="url" widget="url" placeholder="https://example.com"/><field name="category"/></group>
+                        <group><field name="user_id"/><field name="company_id" groups="base.group_multi_company"/></group>
+                    </group>
+                    <group><field name="notes" placeholder="Why is this link useful?"/></group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="reference_link_search" model="ir.ui.view">
+        <field name="name">imran.reference.link.search</field>
+        <field name="model">imran.reference.link</field>
+        <field name="arch" type="xml">
+            <search string="My Links">
+                <field name="name" string="Title, Address or Notes" filter_domain="['|','|',('name','ilike',self),('url','ilike',self),('notes','ilike',self)]"/>
+                <field name="category"/>
+                <filter name="favourites" string="Favourites" domain="[('favourite','=',True)]"/>
+                <separator/>
+                <filter name="learning" string="Learning" domain="[('category','=','learning')]"/>
+                <filter name="tools" string="Tools" domain="[('category','=','tool')]"/>
+                <separator/>
+                <filter name="archived" string="Archived" domain="[('active','=',False)]"/>
+                <group><filter name="group_category" string="Category" context="{'group_by':'category'}"/></group>
+            </search>
+        </field>
+    </record>
+    <record id="action_reference_links" model="ir.actions.act_window">
+        <field name="name">My Links</field>
+        <field name="res_model">imran.reference.link</field>
+        <field name="view_mode">list,form</field>
+        <field name="path">reference-links</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Save your first reference link</p><p>Choose a category, add notes and mark useful links as favourites.</p></field>
+    </record>
+    <menuitem id="menu_reference_links_root" name="Reference Links" sequence="57" web_icon="imran_reference_links,static/description/icon.png" groups="base.group_user"/>
+    <menuitem id="menu_my_links" name="My Links" parent="menu_reference_links_root" action="action_reference_links" sequence="10"/>
+</odoo>

@@ -1,0 +1,17 @@
+{
+    'name': 'Reference Links',
+    'version': '19.0.1.0.0',
+    'summary': 'Private bookmarks with categories, favourites and quick access',
+    'description': 'Save useful web links and organize your own reference library.',
+    'category': 'Productivity',
+    'author': 'Haxrbyte',
+    'support': 'alimran689@gmail.com',
+    'license': 'LGPL-3',
+    'price': 0.0,
+    'currency': 'EUR',
+    'depends': ['base'],
+    'data': ['security/security.xml', 'security/ir.model.access.csv', 'views/reference_link_views.xml'],
+    'images': ['static/description/cover.png'],
+    'application': True,
+    'installable': True,
+}
